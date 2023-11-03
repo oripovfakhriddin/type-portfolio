@@ -4,9 +4,12 @@ import App from "./App.tsx";
 
 import "antd/dist/reset.css";
 import "./index.scss";
+import StoreProvider from "./redux/store/index.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <StoreProvider>
+      <App />
+    </StoreProvider>
   </React.StrictMode>
 );
