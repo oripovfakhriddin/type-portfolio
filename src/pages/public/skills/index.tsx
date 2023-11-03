@@ -1,10 +1,10 @@
 import { useEffect, Fragment, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import "./style.scss";
 import { getSkills } from "../../../redux/slices/skills";
 import { Flex, Input, Pagination, Table } from "antd";
 import Column from "antd/es/table/Column";
 import ColumnGroup from "antd/es/table/ColumnGroup";
+import "./style.scss";
 const SkillsPage = () => {
   const { skills, loading, total } = useAppSelector((state) => state.skills);
 

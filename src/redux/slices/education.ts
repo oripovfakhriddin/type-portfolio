@@ -1,56 +1,80 @@
-// import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// import request from "../../server/request";
-// import Skills from "../../types/education";
+import request from "../../server/request";
+import { DataEducation } from "../../types/education";
 
-// interface initialStateTypes {
-//   data: Education[];
-//   loading: boolean;
-// }
+interface Data {
+  pagination: {
+    next: number;
+    limit: number;
+    page: number;
+    total: number;
+  };
+  data: {
+    _id: string;
+    name: string;
+    level: string;
+    user: null;
+    description: string;
+    startDate: string;
+    endDate: string;
+    __v: number;
+  }[];
+}
 
-// const initialState: initialStateTypes = {
-//   data: [],
-//   loading: false,
-// };
+interface initialStateInterface {
+  education: DataEducation[];
+  total: number;
+  loading: boolean;
+}
 
-// export const getSkills = createAsyncThunk(
-//   "skills/fetching",
-//   async ({ search }: { search: string }) => {
-//     const { data } = await request.get<Education[]>("education", {
-//       params: { search },
-//     });
-//     return data;
-//   }
-// );
+const initialState: initialStateInterface = {
+  education: [],
+  total: 0,
+  loading: false,
+};
 
-// export const skillsSlice = createSlice({
-//   initialState,
-//   name: "education",
-//   reducers: {
-//     controlLoading(state) {
-//       state.loading = !state.loading;
-//     },
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(getSkills.pending, (state) => {
-//         state.loading = true;
-//       })
-//       .addCase(
-//         getSkills.fulfilled,
-//         (state, { payload }: PayloadAction<Education[]>) => {
-//           state.loading = false;
-//           state.data = payload;
-//         }
-//       )
-//       .addCase(getSkills.rejected, (state) => {
-//         state.loading = false;
-//       });
-//   },
-// });
+export const getEducation = createAsyncThunk(
+  "education/fetching",
+  async ({ active = 1, search }: { active: number; search: string }) => {
+    const params = {
+      search,
+      page: active,
+      limit: 10,
+    };
+    const { data } = await request.get("education", { params });
+    return data;
+  }
+);
 
-// const { reducer: skillsReducer, name: skillsName } = skillsSlice;
+export const educationSlice = createSlice({
+  initialState,
+  name: "education",
+  reducers: {
+    controlLoading(state) {
+      state.loading = !state.loading;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getEducation.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(
+        getEducation.fulfilled,
+        (state, { payload: { data, pagination } }: PayloadAction<Data>) => {
+          (state.education = data), (state.total = pagination.total);
+          state.loading = false;
+        }
+      )
+      .addCase(getEducation.rejected, (state) => {
+        state.loading = false;
+      });
+  },
+});
 
-// const { controlLoading } = skillsSlice.actions;
+const { reducer: educationReducer, name: educationName } = educationSlice;
 
-// export { skillsReducer as default, skillsName, controlLoading };
+const { controlLoading } = educationSlice.actions;
+
+export { educationReducer as default, educationName, controlLoading };

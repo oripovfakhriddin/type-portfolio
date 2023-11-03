@@ -4,9 +4,11 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import Children from "../../types/children";
 import skillsReducer, { skillsName } from "../slices/skills";
+import educationReducer, { educationName } from "../slices/education";
 
 const reducer = {
   [skillsName]: skillsReducer,
+  [educationName]: educationReducer,
 };
 
 export const Store = configureStore({ reducer });
