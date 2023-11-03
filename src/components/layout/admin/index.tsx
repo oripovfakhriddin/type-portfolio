@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  // UploadOutlined,
   HomeOutlined,
   AppstoreOutlined,
-  UsergroupAddOutlined,
-  FieldTimeOutlined,
-  LaptopOutlined,
+  // UsergroupAddOutlined,
+  // FieldTimeOutlined,
+  // LaptopOutlined,
   ReadOutlined,
   NotificationOutlined,
   LinkedinOutlined,
@@ -22,24 +22,24 @@ import "./style.scss";
 const { Header, Sider, Content } = Layout;
 
 const AdminLayout = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-  const [page, setPage] = useState(1);
-  const [open, setOpen] = useState(false);
+  // const [page, setPage] = useState(1);
+  // const [open, setOpen] = useState(false);
 
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const logOutFunc = () => {};
+  // const logOutFunc = () => {};
 
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  const onClose = () => {
-    setOpen(false);
-  };
+  // const showDrawer = () => {
+  //   setOpen(true);
+  // };
+  // const onClose = () => {
+  //   setOpen(false);
+  // };
 
   return (
     <Layout>
@@ -198,7 +198,7 @@ const AdminLayout = () => {
               }}
             />
             <Flex gap={24}>
-              <button className="notification" onClick={showDrawer}>
+              <button className="notification">
                 <Badge count={95}>
                   <Avatar
                     className="ofa__notification__btn"
