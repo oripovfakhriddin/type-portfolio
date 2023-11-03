@@ -46,10 +46,10 @@ const SkillsPage = () => {
         />
       </Flex>
       <Flex className="skills__count__box">
-        {data.pagination.total === 0 ? (
+        {data?.pagination?.total === 0 ? (
           <p>Skills not</p>
         ) : (
-          <p>All skills count: {data.pagination.total}</p>
+          <p>All skills count: {data?.pagination?.total}</p>
         )}
       </Flex>
 
