@@ -1,24 +1,45 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import request from "../../server/request";
-import Skills from "../../types/skills";
+import { DataSkills } from "../../types/skills";
 
-interface initialStateTypes {
-  data: Skills[];
+interface Data {
+  pagination: {
+    next: number;
+    limit: number;
+    page: number;
+    total: number;
+  };
+  data: {
+    _id: string;
+    name: string;
+    percent: number;
+    user: null;
+    __v: number;
+  }[];
+}
+
+interface initialStateInterface {
+  skills: DataSkills[];
+  total: number;
   loading: boolean;
 }
 
-const initialState: initialStateTypes = {
-  data: [],
+const initialState: initialStateInterface = {
+  skills: [],
+  total: 0,
   loading: false,
 };
 
 export const getSkills = createAsyncThunk(
-  "skills/fetching",
-  async ({ search }: { search: string }) => {
-    const { data } = await request.get<Skills[]>("skills", {
-      params: { search },
-    });
+  "skill/fetching",
+  async ({ active = 1, search }: { active: number; search: string }) => {
+    const params = {
+      search,
+      page: active,
+      limit: 10,
+    };
+    const { data } = await request.get("skills", { params });
     return data;
   }
 );
@@ -38,9 +59,9 @@ export const skillsSlice = createSlice({
       })
       .addCase(
         getSkills.fulfilled,
-        (state, { payload }: PayloadAction<Skills[]>) => {
+        (state, { payload: { data, pagination } }: PayloadAction<Data>) => {
+          (state.skills = data), (state.total = pagination.total);
           state.loading = false;
-          state.data = payload;
         }
       )
       .addCase(getSkills.rejected, (state) => {
