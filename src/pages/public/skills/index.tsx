@@ -65,7 +65,12 @@ const SkillsPage = () => {
             dataIndex="user"
             key="user"
             render={(data) => {
-              return <p>{data?.firstName}</p>;
+              if (data) {
+                return <p>{data?.firstName}</p>;
+              }
+              {
+                return <p>Mavjud emas</p>;
+              }
             }}
           />
           <Column
@@ -73,7 +78,12 @@ const SkillsPage = () => {
             dataIndex="user"
             key="user"
             render={(data) => {
-              return <p>{data?.lastName}</p>;
+              if (data) {
+                return <p>{data?.lastName}</p>;
+              }
+              {
+                return <p>Mavjud emas</p>;
+              }
             }}
           />
         </ColumnGroup>
